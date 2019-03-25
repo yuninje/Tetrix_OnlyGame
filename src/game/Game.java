@@ -45,11 +45,11 @@ public class Game extends JPanel {
     public boolean timer_flag = true;               // normal or down(keyboard) fall block flag
     public boolean gameover_flag;           // game over flag
     public boolean attack_flag = false;
-    public boolean gameFlag = false;
 
     public int combo = 0;
     public int delay = 500;                         // normal block fall delay (0.5s)
     public int exploded_block;                        // my attack point
+    public boolean startFlag = false;
 
     public Timer timer;
     public TimerTask task;
@@ -87,20 +87,41 @@ public class Game extends JPanel {
     }
 
     public void start() {
-        keyadapter = new MyKeyAdapter();
-        this.addKeyListener(keyadapter);
-        task = new TimerTask() {
-            @Override
-            public void run() {
-                // object 떨어짐
-                fallBlock();
-            }
-        };
-        timer = new Timer();
-        timer.schedule(task, 0, delay);
+            keyadapter = new MyKeyAdapter();
+            this.addKeyListener(keyadapter);
+            task = new TimerTask() {
+                @Override
+                public void run() {
+                    // object 떨어짐
+                    fallBlock();
+                }
+            };
+            timer = new Timer();
+            timer.schedule(task, 0, delay);
 
-        thread = new Thread(runnable);
-        thread.start();
+            thread = new Thread(runnable);
+            thread.start();
+            startFlag = true;
+    }
+
+    public void pause(){
+        timer.cancel();
+        timer.purge();
+    }
+
+    public void recover(){
+    }
+
+    public void end(){
+        this.removeKeyListener(keyadapter);
+        timer.cancel();
+        timer.purge();
+        startFlag = false;
+    }
+
+    public void restart(){
+        end();
+        start();
     }
 
     public void game() {
@@ -150,7 +171,7 @@ public class Game extends JPanel {
         drawField(g);
 
         drawFieldBorder(g);
-        if(gameFlag) {
+        if(startFlag) {
             if (gameover_flag) {
                 gameOverEffect();
             }

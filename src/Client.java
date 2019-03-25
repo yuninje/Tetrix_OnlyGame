@@ -3,15 +3,15 @@ import panel.BasePanel;
 import javax.swing.*;
 
 public class Client extends JFrame {
-  static int WIDTH = 1000;
-  static int HEIGHT = 750;
+  static int WIDTH = 420;
+  static int HEIGHT = 590;
   BasePanel basePanel;
   public Client() {
-    setTitle("Tetris");
+    setTitle("Tetrix");
     setSize(WIDTH, HEIGHT);
     setResizable(false);
 
-    this.add(basePanel = new BasePanel());
+    add(basePanel=new BasePanel());
     setVisible(true);
     basePanel.setVisible(true);
     this.setLocationRelativeTo(null);   // 모니터 가운데 띄우
